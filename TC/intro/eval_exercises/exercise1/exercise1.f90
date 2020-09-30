@@ -16,9 +16,9 @@ program exercise1
     
     ! read the input
     open(unit=input, file="mat.inp", action="read", form="formatted")
-    read(input, *) cols, rows ! file is in  column major order
+    read(input, *) rows, cols ! file is in  column major order
     allocate(A(rows, cols)) 
-    read(input, *) A(:,:)
+    read(input, *) A
     close(input)
 
     ! print original matrix
@@ -137,11 +137,11 @@ program exercise1
     ! f) product of the transpose and the matrix itself (At*A)
     ! ---------------------------------------------------------------
 
-    allocate(auxMat(rows, rows))
+    allocate(auxMat(cols, cols))
     auxMat = matmul(transpose(A), A)
     
-    write(screen, *) "f) Matric product At*A:"
-    call write_matrix(screen, auxMat, rows, rows)
+    write(screen, *) "f) Matrix product At*A:"
+    call write_matrix(screen, auxMat, cols, cols)
     write(screen, *) ""
 
     open(unit=output, file = "f-transmatxmat.out", action="write", form ="formatted")
@@ -164,30 +164,33 @@ program exercise1
     call write_colvec(screen, vec, length)
     write(screen, *) ""
 
-    if (length == rows) then
+    if (length == cols) then
         allocate(auxVec(cols))
         auxVec = matmul(A, vec)
 
         write(screen, *) "g) Matrix-vector product:"
-        call write_colvec(screen, auxVec, length)
+        call write_colvec(screen, auxVec, rows)
         write(screen, *) ""
 
         open(unit=output, file = "g-matrixvecprod.out", action="write", form ="formatted")
         call write_colvec(output, auxVec, length)
         close(output)
 
+        deallocate(auxVec)
     else
         write(screen,*) "WARNING: Can't multiply with the matrix A."
         write(screen,*) "REASON: Number of rows and length not matching."
-        write(screen, *) ""
+        write(screen,*) ""
     endif
-
-    deallocate(auxVec)
 
     !! ------- creation of matrix B, removing last row of A ---------
 
     allocate(B(rows-1, cols))
-    B(:,:) = A(:,:) 
+    do i = 1,rows-1
+        do j = 1,cols
+            B(i,j) = A(i,j)
+        end do
+    end do
     
     write(screen, *) "--- B matrix ---"
     call write_matrix(screen, B, rows-1, cols)
@@ -206,22 +209,40 @@ program exercise1
     call write_colvec(screen, auxVec, rows-1)
     write(screen, *) ""
 
+    open(unit=output, file = "h-hadamard.out", action="write", form ="formatted")
+    call write_colvec(output, auxVec, rows-1)
+    close(output)
+
+    deallocate(auxVec)
+
     ! ---------------------------------------------------------------
-    ! i) matrix multiplication of A-transpose by B (At*B)
+    ! i) matrix multiplication of A-transpose by B (B*At)
     ! ---------------------------------------------------------------
 
+    allocate(auxMat(rows-1, rows))
+    auxMat = matmul(B, transpose(A))
+
+    write(screen, *) "i) Matrix multiplication (B*At):"
+    call write_matrix(screen, auxMat, rows-1, rows)
+    write(screen, *) ""
+
+    open(unit=output, file = "i-Bxtransmat.out", action="write", form ="formatted")
+    call write_matrix(output, auxMat, rows-1, rows)
+    close(output)
+
+    deallocate(auxMat)
 
     ! ---------------------------------------------------------------
     ! j) the sum of all elements of matrix B as an INTEGER
     ! ---------------------------------------------------------------
 
-    auxInt = sum(B)
+    auxInt = int(sum(B))
     
-    write(screen, *) "j) Sum of elements B, as an integer:"
-    write(screen, *) B
+    write(screen, *) "j) Sum of elements in B, as an integer:"
+    write(screen, *) auxInt
     write(screen, *) ""
 
-    open(unit=output, file = "j-sumBint.out", action="write", form ="formatted")
+    open(unit=output, file = "j-sumB.out", action="write", form ="formatted")
     write(output, *) auxInt
     close(output)
 
@@ -229,8 +250,18 @@ program exercise1
     ! k) vector containing the maximum value within each row of B
     ! ---------------------------------------------------------------
 
+    allocate(auxVec(rows))
+    auxVec = maxval(B, dim=1)
 
+    write(screen, *) "k) Vector with the maximum values of each row of B:"
+    call write_colvec(screen, auxVec, rows)
+    write(screen, *) ""
 
+    open(unit=output, file = "k-sumB.out", action="write", form ="formatted")
+    call write_colvec(output, auxVec, rows)
+    close(output)
+
+    deallocate(auxVec)
 
     ! ----------- Ending zone --------------
     

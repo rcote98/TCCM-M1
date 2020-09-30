@@ -21,7 +21,7 @@ module niceio
 
     write(fmt_length, *) rows
     write(unit, fmt="(2i3)") rows, cols
-    write(unit, fmt="(2x"//fmt_length//"f7.1)") matrix
+    write(unit, fmt="(2x"//fmt_length//"f7.4)") matrix
 
     end subroutine write_matrix
 
