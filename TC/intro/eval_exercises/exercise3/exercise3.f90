@@ -13,7 +13,7 @@ program exercise3
 
     ! ---------- Execution Zone ------------
     
-    write(screen, *) "Please, enter the size of the size of the radii array:"
+    write(screen, *) "Please, enter the size of the radii array:"
     read(console, *) ndim
     write(screen, *) ""
 
