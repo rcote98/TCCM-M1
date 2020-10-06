@@ -1,9 +1,9 @@
-! --------- Declaration Zone -----------
-
 program exercise2
 
     use niceio
     use sorting
+
+    ! --------- Declaration Zone -----------
 
     implicit none
 
@@ -13,7 +13,7 @@ program exercise2
 
     ! ---------- Execution Zone ------------
     
-    write(screen, *) "Dimensions of the matrix:"
+    write(screen, *) "Please, enter the dimensions of the matrix:"
     read(console, *) rows, cols
     allocate(A(rows, cols))
     allocate(aux((size(A) + 1) / 2))
@@ -24,11 +24,13 @@ program exercise2
     call write_matrix(screen, A, rows, cols)
     write(screen, *) ""
 
+    open(unit=output, file = "original-matrix.out", action="write", form ="formatted")
+    call write_matrix(output, A, rows, cols)
+    close(output)
+
     allocate(sortedA(rows*cols))
     sortedA = reshape(A, (/rows*cols/))
-    call write_colvec(screen, sortedA, rows*cols)
     call MergeSort(sortedA, aux)
-    call write_colvec(screen, sortedA, rows*cols)
 
     do i = 1, rows
         do j = 1, cols
@@ -41,6 +43,9 @@ program exercise2
     call write_matrix(screen, A, rows, cols)
     write(screen, *) ""
 
+    open(unit=output, file = "ordered-matrix.out", action="write", form ="formatted")
+    call write_matrix(output, A, rows, cols)
+    close(output)
 
     ! ----------- Ending zone --------------
     
