@@ -43,6 +43,9 @@ program exercise4
     open(unit=output, file = "result.out", action="write", form ="formatted")
     call write_2coloutput(output, r, energy, npoints)
     close(output)
+
+    ! confirmation message
+    write(screen, *) 'Calculation successfully completed! The may find the output in "result.out".'
     
     ! ----------- Ending zone --------------
     
