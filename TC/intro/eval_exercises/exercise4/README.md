@@ -1,4 +1,4 @@
-# PROGRAM DESCRIPTION
+## PROGRAM DESCRIPTION
 
 This program calculates the interaction potential between
 two atoms, using a simple model known as the Morse potential. 
@@ -10,7 +10,7 @@ containing both the radii and the value of the potential V(r).
 The resulting output may be visualized by running the Python 
 script provided with the program.
 
-# PROGRAM USAGE
+## PROGRAM USAGE
 
 1. Compile the program "exercise4.exe" by running `make`
 2. Check the input settings in "input.dat"
