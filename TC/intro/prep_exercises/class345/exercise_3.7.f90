@@ -44,12 +44,12 @@ program exercise7
     write(6, fmt="(2x3f7.1)") nondiag
 
     ! write the output files
-    open(unit=output, file = "exercise6diag.out", action="write", form ="formatted")
+    open(unit=output, file = "exercise7diag.out", action="write", form ="formatted")
     write(output, *) ndim
     write(output, fmt="(2x3f7.1)") diag
     close(output)
        
-    open(unit=output, file = "exercise6nondiag.out", action="write", form ="formatted")
+    open(unit=output, file = "exercise7nondiag.out", action="write", form ="formatted")
     write(output, *) ndim
     write(output, fmt="(2x3f7.1)") nondiag
     close(output)
