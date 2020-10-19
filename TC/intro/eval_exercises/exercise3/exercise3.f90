@@ -2,14 +2,14 @@ program exercise3
 
     use geom
     use niceio
-
+    
     ! --------- Declaration Zone -----------
 
     implicit none
 
     integer, parameter :: input = 12, output = 14, screen=6, console=5
     real(4), allocatable :: radii(:), areas(:), volumes(:)
-    integer(4) :: i, ndim
+    integer(4) :: ndim
 
     ! ---------- Execution Zone ------------
     
@@ -19,10 +19,9 @@ program exercise3
 
     allocate(radii(ndim), areas(ndim), volumes(ndim))
     call random_number(radii)
-    do i = 1,ndim
-        call circle_area(radii(i), areas(i))
-        call sphere_volume(radii(i), volumes(i))
-    end do
+    areas = area(ndim, radii)
+    volumes = volume(ndim, radii)
+   
 
     ! Radii ---------------------------
 

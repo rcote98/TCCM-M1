@@ -4,9 +4,7 @@
 module geom
 
     implicit none
-
-    public :: circle_area
-    
+    public :: area, volume, pi
     real, parameter :: pi = 3.1415926536
 
     contains !------------------------------
@@ -14,36 +12,42 @@ module geom
     !!
     ! Calculates the area of a circle
     !!
-    subroutine circle_area(radius, area)
+    function area(nn,rr)
 
-    ! --------- Declaration Zone -----------
+        ! --------- Declaration Zone -----------
+
+        implicit none
+        integer, intent(in) :: nn
+        real, intent(in), dimension(nn) :: rr
+        real, dimension(nn) :: area
+
+        ! ---------- Execution Zone ------------
+      
+        area(:) = pi*rr(:)**2 ! area
         
-        real(4), intent(in ) :: radius
-        real(4), intent(out) :: area
-    
-    ! ---------- Execution Zone ------------
-
-    area = pi*radius**2
-
-    end subroutine circle_area
+        return
+      
+    end function area
 
     !!
     ! Calculates the volume of a sphere
     !!
-    subroutine sphere_volume(radius, volume)
+    function volume(nn,rr)
 
         ! --------- Declaration Zone -----------
-            
-            real(4), intent(in ) :: radius
-            real(4), intent(out) :: volume
-        
+
+        implicit none
+        integer, intent(in) :: nn
+        real, intent(in),dimension(nn) :: rr
+        real, dimension(nn) :: volume
+
         ! ---------- Execution Zone ------------
-    
-        volume = 4./3.*pi*radius**3
-    
-    end subroutine sphere_volume
+      
+        volume(:) = 4./3.*pi*rr(:)**3 !volume
+        
+        return
+      
+    end function volume
 
-
-
-endmodule geom
+end module geom
     
