@@ -9,7 +9,7 @@ program exercise3
 
     integer, parameter :: input = 12, output = 14, screen=6, console=5
     real(4), allocatable :: radii(:), areas(:), volumes(:)
-    integer(4) :: ndim
+    integer(4) :: ndim, i
 
     ! ---------- Execution Zone ------------
     
@@ -53,8 +53,18 @@ program exercise3
     call write_colvec(output, volumes, ndim)
     close(output)
 
+    ! Table output --------------------
+
+    open(20,file='table.out')
+    write(20,fmt='(A12,A,A12,A,A12)') 'Radius', '', 'Areas', '', 'Volumes'
+    write(20,fmt='(A12,A,A12,A,A12)') '-------', '', '-------', '', '-------'
+    do i = 1, ndim
+        write(20,fmt='(3F12.5)') radii(i), areas(i), volumes(i)
+    enddo
+
     ! ----------- Ending zone --------------
     
-    stop
+    stop 'Calculation successfully completed! You can also find a summary result table in "table.out".'
+
 end program exercise3
     
